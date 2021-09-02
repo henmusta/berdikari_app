@@ -8,10 +8,11 @@ class Redaksi_model extends CI_Model {
 		$this->load->helper('kt_string_helper');
 	}
 	public function datatables($request){
-		$columns 			= array("photo","fullname","position","sort","redaksi_id");
+		$columns 			= array("redaksi.photo","redaksi.fullname","employment.nama", "redaksi.location","redaksi.redaksi_id");
 		$select_total 		= "SELECT COUNT(redaksi_id) AS total ";
-		$select 			= "SELECT * ";
-		$from 				= "FROM redaksi ";
+		$select 			= "SELECT *, redaksi.location AS loc ";
+		$from 				= "FROM redaksi1 ";
+		$join				= "LEFT JOIN employment ON redaksi.pos_id =  employment.id ";
 		$where 				= "WHERE redaksi_id > 0 ";
 		$group_by 			= "GROUP BY redaksi_id ";
 		$having 			= "";
@@ -37,9 +38,9 @@ class Redaksi_model extends CI_Model {
 			$limit = "LIMIT " . (int)$request["length"] . " OFFSET " . (int)$request["start"];
 		}
 
-		$sql_total_data 	= $select_total . $from . ";";
-		$sql_total_filtered = $select_total . $from . $where . $having . ";";
-		$sql_data 			= $select . $from . $where . $having . $order_by . $limit . ";";
+		$sql_total_data 	= $select_total . $from . $join . ";";
+		$sql_total_filtered = $select_total . $from . $join . $where . $having . ";";
+		$sql_data 			= $select . $from . $join . $where . $having . $order_by . $limit . ";";
 
 		$totalData 		= $this->db->query($sql_total_data);
 		$totalFiltered 	= $this->db->query($sql_total_filtered);
@@ -78,8 +79,11 @@ class Redaksi_model extends CI_Model {
 		);
 	}
 	public function single($id){
-		$query = $this->db->get_where('redaksi', array('redaksi_id' => $id), 1);
-		return $query->row_array();
+		$this->db->select("redaksi.photo,redaksi.fullname,employment.nama, employment.id, redaksi.location,redaksi.redaksi_id, redaksi.phone");
+		$this->db->from("redaksi");
+		$this->db->join("employment","redaksi.pos_id = employment.id", "left");
+		$this->db->where("redaksi.redaksi_id", $id);
+		return $this->db->get()->row_array();
 	}
 	public function sort(){
 		$query = $this->db->query("SELECT sort FROM redaksi");
@@ -266,5 +270,32 @@ class Redaksi_model extends CI_Model {
 		}
 		return $result;
 		unset($result);
+	}
+	public function select2_position($filter){
+		$row_per_page 	= 10;
+		$select_total 	= "SELECT COUNT(id) AS total ";
+		$select_data	= "SELECT id AS id, nama AS text ";
+		$from 			= "FROM employment ";
+		$where 			= NULL;
+		if(isset($filter['q']) && !empty($filter['q'])){
+			$q = $this->db->escape_str($filter['q']);
+			$where = "WHERE nama ILIKE '%". $filter['q'] ."%' ";
+		}
+		$order_by		= "ORDER BY nama ASC";
+
+		$result_total	= $this->db->query($select_total . $from . $where . ";");
+		$total_data 	= $result_total->row()->total;
+		$total_page		= ceil((int)$total_data/$row_per_page);
+		$page 			= isset($filter['page']) ? (int)$filter['page'] : 1;
+		$offset 		= (($page - 1) * $row_per_page);
+
+		$result_total->free_result();
+
+		$data = $this->db->query($select_data . $from . $where . $order_by. " LIMIT ". $row_per_page ." OFFSET ". $offset .";");
+		return array( 
+			'results' 		=> $data->result_array(),
+			'pagination' 	=> array('more' => ($page < $total_page)) 
+		);
+		$data->free_result();
 	}
 }

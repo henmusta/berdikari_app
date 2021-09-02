@@ -15,6 +15,16 @@ $(function(){
 				}
 			});
 		}
+		$('#<?php echo $select2_position['id']?>').select2({
+			placeholder:'Please select one',
+			ajax : {
+				method : 'post',
+				url : '<?php echo $select2_position['url']?>'
+			}
+		})
+		$('#select-location').select2({
+			placeholder:'Please select one'
+		})
 		$('form#<?php echo $id;?>').validate({
 			validClass 		: 'is-valid',
 			errorClass		: 'is-invalid',

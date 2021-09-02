@@ -8,7 +8,7 @@ class Jabatan_model extends CI_Model {
 		$this->load->helper('kt_string_helper');
 	}
 	public function datatables($request){
-		$columns 			= array("nama","id");
+		$columns 			= array("nama","location","sort","id");
 		$select_total 		= "SELECT COUNT(id) AS total ";
 		$select 			= "SELECT * ";
 		$from 				= "FROM employment ";
@@ -50,7 +50,7 @@ class Jabatan_model extends CI_Model {
 		foreach($results->result_array() AS $row){
 			$row['actions'] = trim('
 				<div class="btn-group">
-					<a href="" class="btn btn-sm btn-outline-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+					<a href="jabatan/edit/'. $row['id'] .'" class="btn btn-sm btn-outline-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
 					<i class="fas fa-fw fa-pencil-alt"></i>
 					</a>
 					<button type="button" class="btn-delete btn btn-sm btn-outline-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete" data-pk="'. $row['id'] .'">
@@ -77,7 +77,7 @@ class Jabatan_model extends CI_Model {
 		return $query->row_array();
 	}
 	public function sort(){
-		$query = $this->db->query("SELECT sort FROM redaksi");
+		$query = $this->db->query("SELECT sort FROM employment");
 
 		$result = array();
 		foreach($query->result_array() AS $key => $val):
@@ -90,61 +90,16 @@ class Jabatan_model extends CI_Model {
 		$result = array(
 			'status'	=> 'error',
 			'message'	=> 'Please complete the form field requirements.',
-			'upload_messages'	=> NULL,
 			'redirect'	=> NULL
 		);
 
 		if(isset($post['data']) && count($post['data']) > 0){
 			$result['message'] 	= "Data failed to save.";
 
-			if(	isset($_FILES['photo']['tmp_name']) && !empty($_FILES['photo']['tmp_name']) ){
-
-				$folder 	= UPLOADS_FOLDER . 'redaksi' . DS;
-				$rename_to 	= strtolower(
-					substr(
-						preg_replace('!\s+!',' ', trim($post['data']['fullname']))
-					, 0, 50) 
-					. '_' 
-					. date('YmdHis') 
-					. '.' 
-					. pathinfo($_FILES['photo']['name'],PATHINFO_EXTENSION)
-				);
-
-				$this->load->library('upload', 
-					array(
-						'upload_path' 	=> $folder,
-						'file_name'		=> $rename_to,
-						'allowed_types' => 'jpg|png|jpeg',
-						'max_size'		=> 400,
-						'max_width'		=> 1200, 
-						'max_height'	=> 1200
-					)
-				);
-
-				if ($this->upload->do_upload('photo')){
-					$image = $this->upload->data();
-					$this->load->library('image_lib', array(
-						'image_library' => 'gd2',
-						'source_image'	=> $image['full_path'],
-						'width'			=> 320,
-						'height'		=> 370
-					));					
-					
-					$post['data']['photo'] = $image['file_name'];
-					if(!$this->image_lib->resize()){
-						$result['upload_messages'] = $this->image_lib->display_errors();
-					}
-				} else {
-					$result['upload_messages'] = $this->upload->display_errors();
-				}
-
-			}
-
-			if( $this->db->insert('redaksi', $post['data']) ){
+			if( $this->db->insert('employment', $post['data']) ){
 				$result = array(
 					'status'	=> 'success',
 					'message'	=> 'Data has been save.',
-					'upload_messages'	=> $result['upload_messages'],
 					'redirect'	=> isset($post['redirect']) ? $post['redirect'] : ''
 				);
 			}
@@ -159,7 +114,6 @@ class Jabatan_model extends CI_Model {
 		$result = array(
 			'status'	=> 'error',
 			'message'	=> 'Please complete the form field requirements.',
-			'upload_messages'	=> NULL,
 			'redirect'	=> NULL
 		);
 
@@ -170,60 +124,11 @@ class Jabatan_model extends CI_Model {
 		){
 			$result['message'] 	= "Data failed to save.";
 
-			if(	isset($_FILES['photo']['tmp_name']) && !empty($_FILES['photo']['tmp_name']) ){
-
-				$folder 	= UPLOADS_FOLDER . 'redaksi' . DS;
-				$rename_to 	= strtolower(
-					substr(
-						preg_replace('!\s+!',' ', trim($post['data']['fullname']))
-					, 0, 50) 
-					. '_' 
-					. date('YmdHis') 
-					. '.' 
-					. pathinfo($_FILES['photo']['name'],PATHINFO_EXTENSION)
-				);
-
-				$this->load->library('upload', 
-					array(
-						'upload_path' 	=> $folder,
-						'file_name'		=> $rename_to,
-						'allowed_types' => 'jpg|png',
-						'max_size'		=> 400,
-						'max_width'		=> 1200, 
-						'max_height'	=> 1200
-					)
-				);
-
-				if ($this->upload->do_upload('photo')){
-					$old_data = $this->single((int)$post['pk']);
-					$old_photo = UPLOADS_FOLDER . 'redaksi' . DS . $old_data['photo'];
-					if( is_file($old_photo) ){
-						unlink($old_photo);
-					}
-
-					$image = $this->upload->data();
-					$this->load->library('image_lib', array(
-						'image_library' => 'gd2',
-						'source_image'	=> $image['full_path'],
-						'width'			=> 320,
-						'height'		=> 370
-					));					
-					$post['data']['photo'] = $image['file_name'];
-					if(!$this->image_lib->resize()){
-						$result['upload_messages'] = $this->image_lib->display_errors();
-					}
-				} else {
-					$result['upload_messages'] = $this->upload->display_errors();
-				}
-
-			}
-
-			$this->db->where('redaksi_id', (int)$post['pk']);
-			if( $this->db->update('redaksi', $post['data']) ){
+			$this->db->where('id', (int)$post['pk']);
+			if( $this->db->update('employment', $post['data']) ){
 				$result = array(
 					'status'	=> 'success',
 					'message'	=> 'Data has been save.',
-					'upload_messages'	=> $result['upload_messages'],
 					'redirect'	=> isset($post['redirect']) ? $post['redirect'] : ''
 				);
 			}
@@ -244,12 +149,8 @@ class Jabatan_model extends CI_Model {
 		if(isset($post['pk'])){
 			$result['message'] 	= "Data failed to save.";
 			$old_data = $this->single((int)$post['pk']);
-			$this->db->where('redaksi_id', (int)$post['pk']);
-			if( $this->db->delete('redaksi') ){
-				$old_photo = UPLOADS_FOLDER . 'redaksi' . DS . $old_data['photo'];
-				if( is_file($old_photo) ){
-					unlink($old_photo);
-				}
+			$this->db->where('id', (int)$post['pk']);
+			if( $this->db->delete('employment') ){
 				$result = array(
 					'status'	=> 'success',
 					'message'	=> 'Data has been deleted.',

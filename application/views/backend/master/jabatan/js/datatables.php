@@ -13,7 +13,7 @@ $(function(){
 								"orderable": false,
 								"data" : null,
 								"visible" :false,
-								"targets": [ 2 ]
+								"targets": [ 4 ]
 								} ],
 			columns 		: [<?php foreach($columns AS $column) : echo $column; endforeach; ?>],
 			processing 		: true,

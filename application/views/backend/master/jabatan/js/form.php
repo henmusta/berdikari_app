@@ -54,10 +54,6 @@ $(function(){
 					success 	: function(response) {
 						btnSubmit.removeClass("disabled").html(btnSubmitHtml);
 						let timeout = 1000;
-						if( response.upload_messages !== '' && response.upload_messages !== null ){
-							One.helpers('notify', {type: 'warning', icon: 'fa fa-check mr-1', message: response.upload_messages});
-							timeout = 3000;
-						}
 						if ( response.status == "success" ){
 							One.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: response.message});
 							setTimeout(function(){

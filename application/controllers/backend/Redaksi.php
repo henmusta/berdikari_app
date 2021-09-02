@@ -33,7 +33,7 @@ class Redaksi extends Backend_Controller {
 						<th style="vertical-align:middle;padding:0px!important;"><i class="far fa-user"></i></th>
 						<th>Name</th>
 						<th>Position</th>
-						<th>Sort</th>
+						<th>Location</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -42,12 +42,12 @@ class Redaksi extends Backend_Controller {
 			'source_url' 		=> 'redaksi/datatables',
 			'delete_url' 		=> 'redaksi/delete',
 			'display_length' 	=> 10,
-			'order_column'		=> array('number'=>3,'dir'=>'asc'),
+			'order_column'		=> array('number'=>1,'dir'=>'asc'),
 			'columns' => array(
 				'{ data: "image", orderable:false, className:"text-center p-1", width:"50px" },',
 				'{ data: "fullname" },',
-				'{ data: "position", width:"50px", className:"text-center" },',
-				'{ data: "sort", width:"50px", className:"text-center" },',
+				'{ data: "nama", width:"100px", className:"text-center" },',
+				'{ data: "loc", width:"50px", className:"text-center" },',
 				'{ data: "actions", className:"text-center", width:"50px", orderable: false }'
 			)
 		);
@@ -71,7 +71,9 @@ class Redaksi extends Backend_Controller {
 	}
 	public function add(){
 		$header = array(
-			'stylesheets'	=> array(),
+			'stylesheets'	=> array(
+				'../assets/backend/js/plugins/select2/css/select2.min.css',
+			),
 			'heading' 		=> array(
 				'title' 		=> 'MASTER DATA',
 				'subtitle' 		=> '__Redaksi',
@@ -88,14 +90,19 @@ class Redaksi extends Backend_Controller {
 			'title'			=> 'form add new redaksi',
 			'subtitle'		=> '',
 			'method'		=> 'POST',
-			'sort'			=> $this->Redaksi_model->sort(),
-			'action'		=> 'redaksi/insert'
+			// 'sort'			=> $this->Redaksi_model->sort(),
+			'action'		=> 'redaksi/insert',
+			'select2_position' => array(
+				'id' 	=> 'select2-position',
+				'url'	=> 'redaksi/select2-position'
+			)
 		);
 
 		$footer = array(
 			'javascripts' => array(
 				'../assets/backend/js/plugins/jquery-validation/jquery.validate.min.js',
-				'../assets/backend/js/plugins/bootstrap-notify/bootstrap-notify.min.js'
+				'../assets/backend/js/plugins/bootstrap-notify/bootstrap-notify.min.js',
+				'../assets/backend/js/plugins/select2/js/select2.full.min.js',
 			),
 			'scripts'	=> array(
 				$this->load->view('backend/master/redaksi/js/form', $form, TRUE)
@@ -110,7 +117,9 @@ class Redaksi extends Backend_Controller {
 		$pk = (int)$this->uri->segment(4);
 
 		$header = array(
-			'stylesheets'	=> array(),
+			'stylesheets'	=> array(
+				'../assets/backend/js/plugins/select2/css/select2.min.css',
+			),
 			'heading' 		=> array(
 				'title' 		=> 'MASTER DATA',
 				'subtitle' 		=> '__Redaksi',
@@ -128,14 +137,19 @@ class Redaksi extends Backend_Controller {
 			'subtitle'		=> '',
 			'method'		=> 'POST',
 			'action'		=> 'redaksi/update',
-			'sort'			=> $this->Redaksi_model->sort(),
-			'data'			=> $this->Redaksi_model->single($pk)
+			// 'sort'			=> $this->Redaksi_model->sort(),
+			'data'			=> $this->Redaksi_model->single($pk),
+			'select2_position' => array(
+				'id' 	=> 'select2-position',
+				'url'	=> 'redaksi/select2-position'
+			)
 		);
 
 		$footer = array(
 			'javascripts' => array(
 				'../assets/backend/js/plugins/jquery-validation/jquery.validate.min.js',
-				'../assets/backend/js/plugins/bootstrap-notify/bootstrap-notify.min.js'
+				'../assets/backend/js/plugins/bootstrap-notify/bootstrap-notify.min.js',
+				'../assets/backend/js/plugins/select2/js/select2.full.min.js',
 			),
 			'scripts'	=> array(
 				$this->load->view('backend/master/redaksi/js/form', $form, TRUE)
@@ -181,6 +195,15 @@ class Redaksi extends Backend_Controller {
 					$this->Redaksi_model->delete($this->input->post(NULL, TRUE))
 				)
 			);
+	}
+	public function select2_position(){
+		$this->output
+		->set_content_type('application/json')
+		->set_output(
+			json_encode(
+				$this->Redaksi_model->select2_position($this->input->post(NULL, TRUE))
+			)
+		);
 	}
 
 }
