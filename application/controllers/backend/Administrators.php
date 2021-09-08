@@ -72,6 +72,8 @@ class Administrators extends Backend_Controller {
 		$this->load->view('backend/websettings/administrators/html/datatables', $datatables);
 		$this->load->view('backend/parts/footer', $footer);
 	}
+
+	
 	public function add(){
 		$header = array(
 			'stylesheets'	=> array(),

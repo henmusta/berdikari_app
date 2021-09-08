@@ -11,7 +11,7 @@ class Redaksi_model extends CI_Model {
 		$columns 			= array("redaksi.photo","redaksi.fullname","employment.nama", "redaksi.location","redaksi.redaksi_id");
 		$select_total 		= "SELECT COUNT(redaksi_id) AS total ";
 		$select 			= "SELECT *, redaksi.location AS loc ";
-		$from 				= "FROM redaksi1 ";
+		$from 				= "FROM redaksi ";
 		$join				= "LEFT JOIN employment ON redaksi.pos_id =  employment.id ";
 		$where 				= "WHERE redaksi_id > 0 ";
 		$group_by 			= "GROUP BY redaksi_id ";
@@ -31,7 +31,7 @@ class Redaksi_model extends CI_Model {
 		if( isset($request['order'][0]['column']) ){
 			$field 	= $columns[$request["order"][0]["column"]];
 			$dir 	= strtoupper($this->db->escape_str($request["order"][0]["dir"]));
-			$order_by = "ORDER BY " . $field . " " . $dir . " "; 
+			$order_by = "ORDER BY " . $field . " " . $di[][[[r . " "; 
 			unset($field,$dir);
 		}
 		if ( isset( $request["start"] ) && $request["length"] != '-1' ) {
