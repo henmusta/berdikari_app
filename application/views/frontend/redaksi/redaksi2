@@ -1,0 +1,30 @@
+<section class="breadcrumbs">
+        <div class="container">
+            <ul>
+                <li><a href="">Home</a></li>
+                <li><a href="">Redaksi</a></li>
+            </ul>
+        </div>
+</section>
+<section class="redaksi-page">
+        <div class="container">
+            <ul class="row">
+                <?php $no=0; foreach ($lists as $val) : $no++;?>
+                <?php if ($no == 1) :?> 
+                <li class="col-sm-4 offset-sm-4 mr-sm-4">
+                    <img src="<?php echo $val['photo'] ?>" alt="">
+                    <h1 class="name"><?php echo $val['fullname']; ?></h1>
+                    <h2 class="position"><?php echo $val['position']; ?></h2>
+                </li>
+                <?php endif; ?>
+                <?php if ($no > 1) : ?>
+                <li class="col-sm-4">
+                    <img src="<?php echo $val['photo'] ?>" alt="">
+                    <h1 class="name"><?php echo $val['fullname']; ?></h1>
+                    <h2 class="position"><?php echo $val['position']; ?></h2>
+                </li>
+                <?php endif;?>
+                <?php endforeach;?>
+            </ul>
+        </div>
+</section>
