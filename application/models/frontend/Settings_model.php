@@ -11,18 +11,16 @@ class Settings_model extends CI_Model {
 		$parent_id = (int)$parent_id;
 		$query 	= $this->db->query("SELECT menu_id,title,url,target FROM menu WHERE menu_type='top-menu' AND parent_id=". $parent_id ." ORDER BY sort ASC;");
 		$data 	= $query->result_array();
-		if(count($data) > 0){
-			$html .= '<ul class="'. ($parent_id < 1 ? 'menu-list' : NULL) .'">';
+		if (count($data) > 0) {
 			foreach($data AS $row){
-				$html .= '<li><a href="'. $row['url'] .'" target="'. $row['target'] .'">'. $row['title'] .'</a>';
+				$html .= '<a id="nav-link" class="nav-link my-1 active ' . '" href="' . $row['url'] . '" target="' . $row['target'] . '">' . $row['title'] . '</a>';
 				$html .= $this->main_menu($row['menu_id']);
-				$html .='</li>';
 			}
-			$html .= '</ul>';
 		}
 		$query->free_result();
 		return $html;
 	}
+
 	public function footer_menu(){
 		$html 	= '';
 		$query 	= $this->db->query("SELECT menu_id,title,url,target FROM menu WHERE menu_type='bottom-menu' ORDER BY sort ASC;");
@@ -37,6 +35,7 @@ class Settings_model extends CI_Model {
 		$query->free_result();
 		return $html;
 	}
+
 	public function ads(){
 
 		$data = $this->db->get('ads')->result_array();
@@ -56,6 +55,7 @@ class Settings_model extends CI_Model {
 		}
 		return $result;
 	}
+
 	public function single_category($category_slug){
 		$category_slug = $this->security->xss_clean($category_slug);
 		return $this->db->get_where('categories',array('slug'=>$category_slug))->row_array();

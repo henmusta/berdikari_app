@@ -17,7 +17,7 @@ class Berita_model extends My_Model {
 			}
 			$where 	.= " AND c.slug IN (". implode(",",$category_slugs) . ")";
 		} else {
-			if(!empty($category_slug) && !in_array($category_slug,array('*'.'all'))){
+			if (!empty($category_slug) && !in_array($category_slug, array('*' . 'all'))) {
 				$category_slug = $this->db->escape(slug($this->security->xss_clean($category_slug)));
 				$where 	.= " AND c.slug=". $category_slug . " ";
 			}
@@ -28,7 +28,7 @@ class Berita_model extends My_Model {
 
 		$query = "
 		SELECT 
-			p.title,p.slug,p.synopsis,p.date_publish,p.media_source
+			p.title,p.slug,p.synopsis,p.date_publish,p.media_source, c.title as cat_title
 		FROM posts p
 			LEFT JOIN post_category_relations r ON r.post_id=p.post_id
 			LEFT JOIN categories c ON c.category_id=r.category_id
@@ -137,11 +137,14 @@ class Berita_model extends My_Model {
 			pc.read_count AS read_count,
 			pc.share_count_facebook AS facebook_count,
 			pc.share_count_twitter AS twitter_count,
-			pc.share_count_whatsapp AS whatsapp_count
+			pc.share_count_whatsapp AS whatsapp_count, 
+			c.title as cat_title 
 		FROM posts p
 			LEFT JOIN administrators e ON e.administrator_id=p.administrator_id
 			LEFT JOIN authors a ON a.author_id=p.author_id
-			LEFT JOIN post_count pc ON pc.post_id=p.post_id
+			LEFT JOIN post_count pc ON pc.post_id=p.post_id 
+			LEFT JOIN post_category_relations r ON r.post_id=p.post_id
+			LEFT JOIN categories c ON c.category_id=r.category_id 
 		WHERE p.status='publish' AND p.module='berita' AND p.slug=". $slug ." LIMIT 1;
 		";
 
