@@ -44,9 +44,9 @@
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assetsatlan/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assetsatlan/css/atlantis.min.css">
-	<!-- <link rel="stylesheet" id="css-main" href="../assets/backend/css/oneui.min.css"> -->
+	<link rel="stylesheet" id="css-main" href="../assets/backend/css/oneui.min.css">
 
-	<link rel="stylesheet" id="css-main" href="<?php echo base_url(); ?>assets/backend/css/oneui.min.css">
+	<!-- <link rel="stylesheet" id="css-main" href="<?php echo base_url(); ?>assets/backend/css/oneui.min.css"> -->
 <style>
 .select2-selection__rendered {
     line-height: 31px !important;

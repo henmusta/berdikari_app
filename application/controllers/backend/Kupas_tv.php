@@ -8,7 +8,6 @@ class Kupas_tv extends Backend_Controller {
 	public function index(){
 		$header = array(
 			'stylesheets'	=> array(
-				'../assets/backend/js/plugins/datatables/dataTables.bootstrap4.css',
 				'../assets/backend/js/plugins/sweetalert2/sweetalert2.min.css'
 			),
 			'heading' 		=> array(

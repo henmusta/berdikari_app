@@ -9,7 +9,6 @@ class Menu extends Backend_Controller {
 	public function index(){
 		$header = array(
 			'stylesheets'	=> array(
-				'../assets/backend/js/plugins/datatables/dataTables.bootstrap4.css',
 				'../assets/backend/js/plugins/sweetalert2/sweetalert2.min.css',
 				'../assets/backend/js/plugins/nestable/nestable.css'
 			),
@@ -41,7 +40,6 @@ class Menu extends Backend_Controller {
 	public function menu_main(){
 		$header = array(
 			'stylesheets'	=> array(
-				'../assets/backend/js/plugins/datatables/dataTables.bootstrap4.css',
 				'../assets/backend/js/plugins/sweetalert2/sweetalert2.min.css',
 				'../assets/backend/js/plugins/nestable/nestable.css'
 			),
@@ -95,7 +93,6 @@ class Menu extends Backend_Controller {
 
 		$header = array(
 			'stylesheets'	=> array(
-				'../assets/backend/js/plugins/datatables/dataTables.bootstrap4.css',
 				'../assets/backend/js/plugins/sweetalert2/sweetalert2.min.css',
 				'../assets/backend/js/plugins/nestable/nestable.css'
 			),
@@ -198,7 +195,6 @@ class Menu extends Backend_Controller {
 	public function menu_footer(){
 		$header = array(
 			'stylesheets'	=> array(
-				'../assets/backend/js/plugins/datatables/dataTables.bootstrap4.css',
 				'../assets/backend/js/plugins/sweetalert2/sweetalert2.min.css',
 				'../assets/backend/js/plugins/nestable/nestable.css'
 			),
@@ -252,7 +248,6 @@ class Menu extends Backend_Controller {
 
 		$header = array(
 			'stylesheets'	=> array(
-				'../assets/backend/js/plugins/datatables/dataTables.bootstrap4.css',
 				'../assets/backend/js/plugins/sweetalert2/sweetalert2.min.css',
 				'../assets/backend/js/plugins/nestable/nestable.css'
 			),

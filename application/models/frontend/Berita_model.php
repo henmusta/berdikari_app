@@ -36,9 +36,9 @@ class Berita_model extends My_Model {
 		$query = "
 		SELECT 
 			p.title,p.slug,p.synopsis,p.date_publish,p.media_source, c.title as cat_title
-		FROM posts p
+		FROM posts p 
+			LEFT JOIN post_count h ON h.post_id=p.post_id
 			LEFT JOIN post_category_relations r ON r.post_id=p.post_id
-			LEFT JOIN categories c ON c.category_id=r.category_id 
 			LEFT JOIN categories c ON c.category_id=r.category_id 
 		WHERE p.post_id!=". $except_id ." AND p.status='publish' AND p.module='berita' ". $where ." AND p.date_publish <= NOW() 
 		".$order." 

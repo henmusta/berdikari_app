@@ -59,6 +59,7 @@ $route['beranda|home'] 					= 'home';
 $route['infografis'] 					= 'infografis';
 $route['author'] 						= 'author';
 $route['author/(:any)'] 				= 'author/index/$1';
+$route['populer'] 						= 'populer';
 $route['tag'] 							= 'tag';
 $route['tag/(:any)'] 					= 'tag/index/$1';
 $route['kupas-tv'] 						= 'kupas-tv';
@@ -88,6 +89,7 @@ $route['penulis-ajax/(:any)/:num'] 		= 'penulis/loadmore/$1/$2';
 $route['e-paper-ajax/:num'] 			= 'e-paper/loadmore/$1';
 $route['indeks-ajax/:num'] 				= 'indeks/loadmore/$1'; 
 $route['author-ajax/(:any)/:num'] 		= 'author/loadmore/$1';
+$route['populer-ajax/:num'] 		    = 'populer/loadmore/$1';
 $route['tag-ajax/(:any)/:num'] 			= 'tag/loadmore/$1';
 $route['rss|feed'] = 'feed/index';
 
