@@ -43,6 +43,7 @@ class E_paper extends Frontend_Controller {
 		$this->load->view('frontend/parts/pre-header', $heading);
 		$this->load->view('frontend/e-paper/lists',$data);
 		$this->load->view('frontend/parts/footer', $footer);
+
 	}
 	public function loadmore(){
 		$page = $this->security->xss_clean($this->uri->segment(2));
@@ -53,5 +54,11 @@ class E_paper extends Frontend_Controller {
 			//show_404();
 		//}
 		$this->load->view('frontend/e-paper/ajax-loadmore',$data);
+
+		
+		echo "<pre>";
+		echo print_r($data);
+		echo "</pre>";
+		die();
 	}
 }

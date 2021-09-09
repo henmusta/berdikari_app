@@ -6,7 +6,7 @@
 				page 	= $(this).attr('data-page')
 				url 	=  href +'/'+ page;
 			$.get( url, function( data ) {
-				$('#listepaper').append(data);
+				$('#listpopuler').append(data);
 		  		$('#btn-load').attr('data-page', (parseInt(page) + 1));
 		  		setTimeout(function(){
 		  			$('body').getNiceScroll().resize();

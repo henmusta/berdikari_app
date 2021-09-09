@@ -14,7 +14,7 @@ class Populer extends Frontend_Controller {
 		$category 	= $this->Settings_model->single_category($slug);
 		
 		$data = array(
-			'lists' => $this->Populer_model->lists(4,0),
+			'lists' => $this->Populer_model->lists(8,0),
 			'url_loadmore' => 'populer-ajax/'
 		);
 
@@ -49,9 +49,14 @@ class Populer extends Frontend_Controller {
 		$data = array(
 			'lists' => $this->Populer_model->loadmore($page)
 		);
-		//if (!isset($data['lists']) OR (count($data['lists']) < 1) ) {
-			//show_404();
-		//}
+		if (!isset($data['lists']) OR (count($data['lists']) < 1) ) {
+			show_404();
+		}
 		$this->load->view('frontend/populer/ajax-loadmore',$data);
+				
+		// echo "<pre>";
+		// echo print_r($data);
+		// echo "</pre>";
+		// die();
 	}
 }

@@ -70,6 +70,11 @@
 </div>
 </main>
 <script src="assets/frontend/js/jquery.min.js"></script>
+<script src="<?php echo base_url();?>assets/new_frontend/js/frontend/vendor.js"></script>
+
+<script src="<?php echo base_url();?>assets/new_frontend/js/frontend/plugins.js"></script>
+
+<script src="<?php echo base_url();?>assets/new_frontend/js/frontend/main.js"></script>
 <script src="assets/frontend/js/bootstrap.bundle.min.js"></script>
 
 <script>

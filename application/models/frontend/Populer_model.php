@@ -107,7 +107,11 @@ class Populer_model extends MY_Model {
 	}
 
 	public function get_total_populer(){
-		$query = " SELECT COUNT(p.post_id) AS total FROM posts p LEFT JOIN post_count h ON h.post_id=p.post_id WHERE p.status='publish' AND p.date_publish <= NOW() GROUP BY p.post_id  ";
+		$query = " 	SELECT COUNT(p.post_id) AS total
+		FROM posts p 
+		WHERE p.status='publish' AND p.date_publish <= NOW()
+		GROUP BY p.post_id
+		ORDER BY date_publish DESC ";
 		return (int)$this->db->query($query)->row()->total;
 	}
 	public function loadmore($page = 1){

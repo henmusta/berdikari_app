@@ -61,6 +61,9 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
     <link rel="stylesheet" href="<?= base_url() ?>assets/frontend/css/style.css">
     <!-- Custom Font -->
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/new_frontend/css/frontend/vendor.css">
+
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/new_frontend/css/frontend/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
     <?= isset($metadata['google_analitycs']) ? $metadata['google_analitycs'] : null; ?>
