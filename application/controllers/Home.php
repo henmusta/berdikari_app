@@ -28,9 +28,9 @@ class Home extends Frontend_Controller {
 		$data = array(
 			'latest_news'     => $this->Berita_model->lists('',3,0),
 			'option_news'     => $this->Berita_model->lists('berita-pilihan',4,0),
+			'populer'	      => $this->Berita_model->lists('populer',6,0),
 			'politik'	      => $this->Berita_model->lists('politik',4,0),
 			'e_paper'	  	  => $this->E_paper_model->lists(3,0),
-			'seputar_lampung' => $this->Berita_model->category_hierarchy_lists('daerah-lampung',5,0),
 			'kupas_tv'        => $this->Kupas_tv_model->lists(6,0)
 		);
 

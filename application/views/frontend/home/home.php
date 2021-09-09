@@ -100,18 +100,20 @@
         </a>
     </div>
     <div class="row mt-3">
-        <div class="col-12 col-md-6 col-lg-4 mb-3">
-            <figure class="figure w-100">
-                <div class="figure-img">
-                    <img src="./assets/img/content/11.jpg" class="img-fluid rounded" alt="">
-                </div>
-                <p class="m-0 p-0 d-flex text_14 align-items-center">
-                    <img src="<?= base_url(); ?>assets/frontend/images/logo/logo-kategori-2.png" class="mr-1" style="width: 20px;" alt="">berdikari <span class="text-uppercase"><?= $val['cat_title']; ?></span>
-                </p>
-                <a href="#">Begini Kondisinya Ryan Jombang Usai Diduga Dianiaya Habib Bahar di LP Gunung Sindar</a>
-                <figcaption class="figure-caption mt-1">Kamis / 21 Januari 2021</figcaption>
-            </figure>
-        </div>
+        <?php foreach($populer as $val) : ?>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <figure class="figure w-100">
+                    <div class="figure-img">
+                        <img src="<?php echo $val['image_medium'] ?>" class="img-fluid rounded" alt="<?php echo $val['title'] ?>">
+                    </div>
+                    <p class="m-0 p-0 d-flex text_14 align-items-center">
+                        <img src="<?= base_url(); ?>assets/frontend/images/logo/logo-kategori-2.png" class="mr-1" style="width: 20px;" alt="berdikari<?= $val['cat_title']; ?>">berdikari <span class="text-uppercase"><?= $val['cat_title']; ?></span>
+                    </p>
+                    <a href="<?php echo $val['url'] ?>"><?php echo $val['title'] ?></a>
+                    <figcaption class="figure-caption mt-1"><?php echo $val['date'] ?></figcaption>
+                </figure>
+            </div>
+        <?php endforeach; ?>
     </div>
 </section>
 

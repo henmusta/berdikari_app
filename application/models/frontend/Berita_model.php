@@ -10,16 +10,23 @@ class Berita_model extends My_Model {
 
 		$except_id = (int)$this->security->xss_clean($except_id);
 		$where = '';
-		if(is_array($category_slug) && count($category_slug) > 0 ) {
+		$order = '';
+
+		if($category_slug == 'populer' ){
+			$order 	.= " order by read_count Desc  ";
+		}
+		elseif(is_array($category_slug) && count($category_slug) > 0 ) {
 			$category_slugs = array();
 			foreach($category_slug AS $val){
 				array_push($category_slugs, $this->db->escape(slug($this->security->xss_clean($val))));
 			}
 			$where 	.= " AND c.slug IN (". implode(",",$category_slugs) . ")";
+				$order 	.= " ORDER BY date_publish DESC  ";
 		} else {
-			if (!empty($category_slug) && !in_array($category_slug, array('*' . 'all'))) {
+			if(!empty($category_slug) && !in_array($category_slug,array('*'.'all'))){
 				$category_slug = $this->db->escape(slug($this->security->xss_clean($category_slug)));
 				$where 	.= " AND c.slug=". $category_slug . " ";
+				$order 	.= " ORDER BY date_publish DESC  ";
 			}
 		}
 		
@@ -29,11 +36,12 @@ class Berita_model extends My_Model {
 		$query = "
 		SELECT 
 			p.title,p.slug,p.synopsis,p.date_publish,p.media_source, c.title as cat_title
-		FROM posts p
+		FROM posts p 
+			LEFT JOIN post_count h ON h.post_id=p.post_id
 			LEFT JOIN post_category_relations r ON r.post_id=p.post_id
-			LEFT JOIN categories c ON c.category_id=r.category_id
-		WHERE p.post_id!=". $except_id ." AND p.status='publish' AND p.module='berita' ". $where ." AND p.date_publish <= NOW()
-		ORDER BY date_publish DESC
+			LEFT JOIN categories c ON c.category_id=r.category_id 
+		WHERE p.post_id!=". $except_id ." AND p.status='publish' AND p.module='berita' ". $where ." AND p.date_publish <= NOW() 
+		".$order." 
 		LIMIT ". $limit ." OFFSET ". $offset ."
 		";
 	
