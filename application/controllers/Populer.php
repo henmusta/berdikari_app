@@ -14,7 +14,7 @@ class Populer extends Frontend_Controller {
 		$category 	= $this->Settings_model->single_category($slug);
 		
 		$data = array(
-			'lists' => $this->Populer_model->lists(8,0),
+			'lists' => $this->Populer_model->lists(4,0),
 			'url_loadmore' => 'populer-ajax/'
 		);
 
